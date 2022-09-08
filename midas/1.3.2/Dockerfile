@@ -34,7 +34,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
  build-essential \
  ca-certificates \
  hmmer && \
- apt-get autoclean && rm -rf /var/lib/apt/lists/* 
+ apt-get autoclean && rm -rf /var/lib/apt/lists/* && \
+ update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 # install VSEARCH (for building databases; also required to pass tests)
 RUN wget https://github.com/torognes/vsearch/releases/download/v${VSEARCH_VER}/vsearch-${VSEARCH_VER}-linux-x86_64.tar.gz && \
@@ -44,11 +45,11 @@ RUN wget https://github.com/torognes/vsearch/releases/download/v${VSEARCH_VER}/v
 # install python dependencies
 RUN pip3 install numpy biopython pysam pandas
 
-# download MIDAS code; install python deps; make /data
+# download MIDAS code; install using setup.py (python packages installed in previous step); make /data
 RUN wget https://github.com/snayfach/MIDAS/archive/refs/tags/v${MIDAS_VER}.tar.gz && \
   tar -xzf v${MIDAS_VER}.tar.gz && \
   rm -r v${MIDAS_VER}.tar.gz && \
-  python MIDAS-${MIDAS_VER}/setup.py install && \
+  python3 MIDAS-${MIDAS_VER}/setup.py install && \
   mkdir /data
 
 # set PATH and locale settings for singularity
