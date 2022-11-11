@@ -24,7 +24,7 @@ RUN apt-get update && \
   apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 RUN cd /opt && \
-  PACKAGE="kSNP${KSNPVER} Linux package" && \
+  PACKAGE="kSNP${KSNPVER}_Linux_package" && \
   wget "https://sourceforge.net/projects/ksnp/files/${PACKAGE}.zip" && \
   unzip "${PACKAGE}.zip" && \
   mv "${PACKAGE}/kSNP4pkg/" /usr/local/ && \
